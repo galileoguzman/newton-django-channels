@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card mt-5">
+	<div class="card-header">
+		Notification list
+	</div>
+	<div class="card-body notifcations-list">
+		{% for msg in notifications %}
+		<blockquote class="blockquote mb-2">
+			<p>{{msg.title}}</p>
+			<footer class="blockquote-footer">{{msg.body}}</footer>
+		</blockquote>
+		{% endfor %}
+	</div>
+</div>
+{% endblock content %}
+
+{% block script %}
+  <script>
+
+  	function addNewNotification(not) {
+  		const template = `<blockquote class="blockquote mb-2">
+							<p>${not.title}</p>
+							<footer class="blockquote-footer">${not.body}</footer>
+						  </blockquote>`
+
+  		$('.notifcations-list').prepend(template);
+  	}
+    const socket = new WebSocket('ws://' + window.location.host + '/notifications/');
+
+    socket.onopen = function open() {
+      console.log('Django | WebSockets connection created.');
+    };
+
+    socket.onmessage = function (event) {
+      const not = JSON.parse(event.data).notification;
+      addNewNotification(not);
+	  console.log(not);
+	}
+
+    if (socket.readyState == WebSocket.OPEN) {
+      socket.onopen();
+    }
+  </script>
+{% endblock script %}

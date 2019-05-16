@@ -1,5 +1,12 @@
 from django.shortcuts import render
 
+from .models import Notification
+
+
 # Create your views here.
-def user_list(request):
-    return render(request, 'user_list.html')
+def notifications_list(request):
+	notifications = Notification.objects.all()[:5]
+	return render(request,
+		'notifications.html',{
+		'notifications' : notifications
+	})
