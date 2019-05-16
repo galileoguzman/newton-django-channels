@@ -7,10 +7,11 @@
 	</div>
 	<div class="card-body notifcations-list">
 		{% for msg in notifications %}
-		<blockquote class="blockquote mb-2">
+		<blockquote class="blockquote">
 			<p>{{msg.title}}</p>
 			<footer class="blockquote-footer">{{msg.body}}</footer>
 		</blockquote>
+		<div class="dropdown-divider mb-4"></div>
 		{% endfor %}
 	</div>
 </div>
@@ -23,7 +24,8 @@
   		const template = `<blockquote class="blockquote mb-2">
 							<p>${not.title}</p>
 							<footer class="blockquote-footer">${not.body}</footer>
-						  </blockquote>`
+						  </blockquote>
+						  <div class="dropdown-divider"></div>`
 
   		$('.notifcations-list').prepend(template);
   	}
