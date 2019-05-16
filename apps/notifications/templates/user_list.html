@@ -4,11 +4,16 @@
 
 {% block script %}
   <script>
-    var socket = new WebSocket('ws://' + window.location.host + '/notifications/');
+    const socket = new WebSocket('ws://' + window.location.host + '/notifications/');
 
     socket.onopen = function open() {
-      console.log('WebSockets connection created.');
+      console.log('Django | WebSockets connection created.');
     };
+
+    socket.onmessage = function (event) {
+      const not = JSON.parse(event.data).notification;
+	  console.log(not);
+	}
 
     if (socket.readyState == WebSocket.OPEN) {
       socket.onopen();
